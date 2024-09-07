@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "slick-carousel/slick/slick.css"; // Import slick-carousel CSS
+import "slick-carousel/slick/slick-theme.css"; // Import slick-carousel theme CSS
+import "./globals.css"; // Your global styles
 
 const inter = Inter({ subsets: ["latin"] });
 

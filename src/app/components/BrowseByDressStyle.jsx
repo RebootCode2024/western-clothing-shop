@@ -59,7 +59,7 @@ const BrowseByDressStyle = () => {
               position: 'relative',
               overflow: 'hidden',
               borderRadius: '10px',
-              height: { xs: '187.5px', md: '350px' },
+              height: { xs: '233.5px', md: '450px' },
               transition: 'transform 0.3s ease',
               cursor: 'pointer',
               '&:hover': {
@@ -79,21 +79,6 @@ const BrowseByDressStyle = () => {
                 borderRadius: '10px',
               }}
             />
-            {/* Label Overlay */}
-            <Typography
-              sx={{
-                position: 'absolute',
-                bottom: '10px',
-                left: '10px',
-                color: '#fff',
-                fontWeight: 'bold',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                padding: '5px 10px',
-                borderRadius: '5px',
-              }}
-            >
-              {style.name}
-            </Typography>
           </Box>
         ))}
       </Box>
