@@ -5,7 +5,8 @@ import BrandsLogos from './components/brands-logos';  // Import the new BrandsLo
 import NewArrivals from './components/NewArrivals'; // Import the NewArrivals component
 import TopSelling from './components/TopSelling'; // Import the TopSelling component
 import BrowseByDressStyle from './components/BrowseByDressStyle'; // Import the BrowseByDressStyle component
-// import HappyCustomers from './components/HappyCustomers'; // Import the HappyCustomers component
+import HappyCustomers from './components/HappyCustomers'; // Import the HappyCustomers component
+import NewsletterSubscribe from './components/NewsletterSubscribe'; // Import the NewsletterSubscribe component
 
 export default function Home() {
   return (
@@ -32,8 +33,11 @@ export default function Home() {
       <BrowseByDressStyle />
       
       {/* Include the HappyCustomers component */}
-      {/* <HappyCustomers /> */}
-      
+      <HappyCustomers /> 
+
+      {/* Include the NewsletterSubscribe component */}
+      <NewsletterSubscribe /> 
+
       {/* Other sections or components */}
     </main>
   );
