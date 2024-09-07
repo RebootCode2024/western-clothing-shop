@@ -3,8 +3,13 @@
 import React from "react";
 import { Box, Typography, Card, CardContent } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import Slider from "react-slick";
+import dynamic from "next/dynamic";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+// Lazy load Slider to ensure it only runs on the client-side
+const Slider = dynamic(() => import("react-slick"), {
+  ssr: false,
+});
 
 // Mock customer data
 const customers = [
@@ -60,6 +65,7 @@ const HappyCustomers = () => {
         OUR HAPPY CUSTOMERS
       </Typography>
 
+      {/* Conditionally render the Slider only in the browser */}
       <Slider {...sliderSettings}>
         {customers.map((customer, index) => (
           <Card
