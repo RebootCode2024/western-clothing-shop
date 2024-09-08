@@ -17,7 +17,7 @@ const customers = [
     name: "Sarah M.",
     rating: 5,
     review:
-      "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+      "I&apos;m blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I&apos;ve bought has exceeded my expectations.",
   },
   {
     name: "Alex K.",
@@ -29,7 +29,7 @@ const customers = [
     name: "James L.",
     rating: 4.5,
     review:
-      "The selection is not only diverse but also on-point with the latest trends. I'm thrilled to have found Shop.co!",
+      "The selection is not only diverse but also on-point with the latest trends. I&apos;m thrilled to have found Shop.co!",
   },
 ];
 
@@ -94,7 +94,7 @@ const HappyCustomers = () => {
                 variant="body2"
                 sx={{ mt: 2, color: "#666", textAlign: 'left', overflow: 'hidden', textOverflow: 'ellipsis' }}
               >
-                "{customer.review}"
+                &quot;{customer.review}&quot;
               </Typography>
             </CardContent>
           </Card>
