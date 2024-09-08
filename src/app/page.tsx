@@ -7,6 +7,7 @@ import TopSelling from './components/TopSelling'; // Import the TopSelling compo
 import BrowseByDressStyle from './components/BrowseByDressStyle'; // Import the BrowseByDressStyle component
 import HappyCustomers from './components/HappyCustomers'; // Import the HappyCustomers component
 import NewsletterSubscribe from './components/NewsletterSubscribe'; // Import the NewsletterSubscribe component
+import Footer from './components/Footer'; // Import the Footer component
 
 export default function Home() {
   return (
@@ -36,7 +37,10 @@ export default function Home() {
       <HappyCustomers /> 
 
       {/* Include the NewsletterSubscribe component */}
-      <NewsletterSubscribe /> 
+      <NewsletterSubscribe />
+
+      {/* Include the Footer component */}
+      <Footer />
 
       {/* Other sections or components */}
     </main>
