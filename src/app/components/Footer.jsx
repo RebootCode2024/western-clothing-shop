@@ -3,6 +3,7 @@
 import React from "react";
 import { Box, Typography, Grid, IconButton } from "@mui/material";
 import { Twitter, Facebook, Instagram, GitHub } from "@mui/icons-material";
+import Image from "next/image"; // Import Next.js Image component
 
 // Mock data for the footer sections
 const sections = [
@@ -34,7 +35,7 @@ const Footer = () => {
             SHOP.CO
           </Typography>
           <Typography variant="body2" sx={{ marginBottom: "20px" }}>
-            We have clothes that suit your style and which you're proud to wear. From women to men.
+            We have clothes that suit your style and which you&apos;re proud to wear. From women to men.
           </Typography>
           <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" }, gap: "10px" }}>
             <IconButton color="inherit">
@@ -73,10 +74,11 @@ const Footer = () => {
           Shop.co © 2000-2023, All Rights Reserved
         </Typography>
         <Box sx={{ display: "flex", justifyContent: { xs: "center", md: "center" }, gap: "10px" }}>
-          <img src="/assets/visa.png" alt="Visa" style={{ height: "35px" }} />
-          {/* <img src="/paypal.png" alt="PayPal" style={{ height: "30px" }} />
-          <img src="/apple-pay.png" alt="Apple Pay" style={{ height: "30px" }} />
-          <img src="/google-pay.png" alt="Google Pay" style={{ height: "30px" }} /> */}
+          <Image src="/assets/visa.png" alt="Visa" width={200} height={35} />
+          {/* Uncomment and use correct paths for other payment method images */}
+          {/* <Image src="/assets/paypal.png" alt="PayPal" width={50} height={30} />
+          <Image src="/assets/apple-pay.png" alt="Apple Pay" width={50} height={30} />
+          <Image src="/assets/google-pay.png" alt="Google Pay" width={50} height={30} /> */}
         </Box>
       </Box>
     </Box>
