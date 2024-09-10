@@ -67,7 +67,7 @@ const ProductDetail = ({ productId }) => {
 
       {/* Right Column: Product Details */}
       <Box sx={{ flex: 1, gridArea: 'details' }}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'left' }}>ONE LIFE GRAPHIC T-SHIRT</Typography>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, textAlign: 'left' }}>ONE LIFE GRAPHIC TSHIRT</Typography>
         
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, textAlign: 'left' }}>
           <Rating value={4.5} precision={0.5} readOnly sx={{ mr: 1 }} />
