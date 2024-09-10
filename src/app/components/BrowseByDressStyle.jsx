@@ -1,7 +1,8 @@
-"use client"; // Mark this component as a client-side component
+"use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation'; // Ensure you are importing the correct Next.js router
 
 const styles = [
   {
@@ -31,6 +32,21 @@ const styles = [
 ];
 
 const BrowseByDressStyle = () => {
+  const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
+
+  // Ensure router is ready before proceeding
+  useEffect(() => {
+    setIsReady(true); // Mark router as ready when component mounts
+  }, []);
+
+  // Handle click event
+  const handleClick = (styleName) => {
+    if (isReady) {
+      router.push(`/category/${styleName.toLowerCase()}`);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -66,7 +82,7 @@ const BrowseByDressStyle = () => {
                 transform: 'translateY(-10px)',
               },
             }}
-            onClick={() => alert(`You clicked on ${style.name}`)} // Clickable action
+            onClick={() => handleClick(style.name)} // Handle click action
           >
             {/* Image */}
             <img
