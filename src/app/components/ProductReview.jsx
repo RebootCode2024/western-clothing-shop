@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Grid, Card, CardContent, Button, useMediaQuery } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -46,12 +46,15 @@ const reviews = [
 
 const ProductReview = ({ productId }) => {
   const isMobile = useMediaQuery('(max-width:600px)'); // Define mobile based on width
-  const initialReviewsCount = isMobile ? 3 : 6; // 3 for mobile, 6 for desktop
+  const [visibleReviews, setVisibleReviews] = useState(isMobile ? 3 : 6);
 
-  const [visibleReviews, setVisibleReviews] = useState(initialReviewsCount);
+  useEffect(() => {
+    // Dynamically update visible reviews when the screen size changes
+    setVisibleReviews(isMobile ? 3 : 6);
+  }, [isMobile]);
 
   const handleLoadMore = () => {
-    setVisibleReviews((prevCount) => prevCount + initialReviewsCount); // Load more based on initial count
+    setVisibleReviews((prevCount) => prevCount + (isMobile ? 3 : 6)); // Load more based on mobile/desktop
   };
 
   return (
