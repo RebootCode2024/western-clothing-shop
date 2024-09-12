@@ -9,9 +9,12 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Dialog,
+  DialogContent,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import Filter from "./Filter"; // Assuming Filter component is created in Filter.jsx
-
 // Updated mock product data with images from your assets folder
 const casualProducts = [
   {
@@ -99,10 +102,20 @@ const casualProducts = [
 
 const CategoryComp = ({ products = casualProducts }) => {
   const [sortOption, setSortOption] = useState("mostPopular");
+  const [filterOpen, setFilterOpen] = useState(false); // State to manage the filter modal
 
   // Handle sorting
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
+  };
+
+  // Handle filter modal (for mobile view)
+  const handleFilterOpen = () => {
+    setFilterOpen(true);
+  };
+
+  const handleFilterClose = () => {
+    setFilterOpen(false);
   };
 
   // Memoized sorted products
@@ -120,96 +133,137 @@ const CategoryComp = ({ products = casualProducts }) => {
   }, [products, sortOption]);
 
   return (
-    <Box sx={{ display: "flex", padding: "20px" }}>
-      {/* Filter Component on the left */}
-      <Box sx={{ width: "20%", marginRight: "20px" }}>
-        <Filter />
-      </Box>
+    <Box sx={{ display: "flex", flexDirection: "column", padding: "20px" }}>
+      {/* Top Components: Frame1Homepage and Navbar */}
+     
 
-      {/* Product Grid and Sorting Options */}
-      <Box sx={{ flex: 1, backgroundColor: "#f5f5f5", borderRadius: "10px", padding: "20px" }}>
-        {/* Category Info */}
-        <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: "20px" }}>
-          Casual Collection
-        </Typography>
-        <Typography variant="body1" sx={{ marginBottom: "20px" }}>
-          Explore our collection of casual wear for everyday comfort.
-        </Typography>
-
-        {/* Filter and Sorting Options */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-          <FormControl sx={{ minWidth: 120 }}>
-            <InputLabel>Sort By</InputLabel>
-            <Select value={sortOption} onChange={handleSortChange}>
-              <MenuItem value="mostPopular">Most Popular</MenuItem>
-              <MenuItem value="lowestPrice">Lowest Price</MenuItem>
-              <MenuItem value="highestPrice">Highest Price</MenuItem>
-              <MenuItem value="newest">Newest</MenuItem>
-            </Select>
-          </FormControl>
-
-          {/* Button for Filter Modal */}
-          <Button variant="outlined">Filter</Button>
+      <Box sx={{ display: "flex", padding: "20px", flexGrow: 1 }}>
+        {/* Filter Component on the left for desktop */}
+        <Box
+          sx={{
+            width: { xs: "100%", md: "20%" },
+            marginRight: { xs: "0", md: "20px" },
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            position: "sticky",
+            top: 0, // Stick to the top
+            display: { xs: "none", md: "block" }, // Only show on larger screens
+          }}
+        >
+          <Filter />
         </Box>
 
-        {/* Product Grid */}
-        <Grid container spacing={3}>
-          {sortedProducts.map((product) => (
-            <Grid item xs={12} sm={6} md={3} key={product.id}>
-              <Box
-                sx={{
-                  border: "1px solid #ccc",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
-                  },
-                }}
-              >
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  style={{
-                    width: "100%",
-                    height: "auto",
+        {/* Product Grid and Sorting Options */}
+        <Box
+          sx={{
+            flex: 1,
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            padding: "20px",
+          }}
+        >
+          {/* Category Info */}
+          <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: "20px" }}>
+            Casual Collection
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "20px" }}>
+            Explore our collection of casual wear for everyday comfort.
+          </Typography>
+
+          {/* Sorting & Filter Button for Mobile */}
+          <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+            <FormControl sx={{ minWidth: 120 }}>
+              <InputLabel>Sort By</InputLabel>
+              <Select value={sortOption} onChange={handleSortChange}>
+                <MenuItem value="mostPopular">Most Popular</MenuItem>
+                <MenuItem value="lowestPrice">Lowest Price</MenuItem>
+                <MenuItem value="highestPrice">Highest Price</MenuItem>
+                <MenuItem value="newest">Newest</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Mobile Filter Button */}
+            <Button
+              variant="outlined"
+              onClick={handleFilterOpen}
+              sx={{ display: { xs: "block", md: "none" } }} // Only show on mobile
+            >
+              Filter
+            </Button>
+          </Box>
+
+          {/* Product Grid */}
+          <Grid container spacing={3}>
+            {sortedProducts.map((product) => (
+              <Grid item xs={12} sm={6} md={3} key={product.id}>
+                <Box
+                  sx={{
+                    border: "1px solid #ccc",
                     borderRadius: "10px",
-                    marginBottom: "10px",
+                    padding: "10px",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.2)",
+                    },
                   }}
-                />
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", marginBottom: "10px" }}
                 >
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" sx={{ marginBottom: "10px" }}>
-                  ${product.price}{" "}
-                  {product.originalPrice && (
-                    <span style={{ textDecoration: "line-through" }}>
-                      ${product.originalPrice}
-                    </span>
-                  )}
-                  {product.discount && (
-                    <span style={{ color: "red", marginLeft: "5px" }}>
-                      {product.discount}
-                    </span>
-                  )}
-                </Typography>
-                <Typography variant="body2">
-                  Rating: {product.rating}/5
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: "10px",
+                      marginBottom: "10px",
+                    }}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", marginBottom: "10px" }}
+                  >
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ marginBottom: "10px" }}>
+                    ${product.price}{" "}
+                    {product.originalPrice && (
+                      <span style={{ textDecoration: "line-through" }}>
+                        ${product.originalPrice}
+                      </span>
+                    )}
+                    {product.discount && (
+                      <span style={{ color: "red", marginLeft: "5px" }}>
+                        {product.discount}
+                      </span>
+                    )}
+                  </Typography>
+                  <Typography variant="body2">
+                    Rating: {product.rating}/5
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
 
-        {/* Pagination */}
-        <Box sx={{ textAlign: "center", marginTop: "20px" }}>
-          <Button variant="outlined">Load More</Button>
+          {/* Pagination */}
+          <Box sx={{ textAlign: "center", marginTop: "20px" }}>
+            <Button variant="outlined">Load More</Button>
+          </Box>
         </Box>
       </Box>
+
+      {/* Filter Dialog for Mobile */}
+      <Dialog open={filterOpen} onClose={handleFilterClose} fullScreen>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 2 }}>
+          <Typography variant="h6">Filter</Typography>
+          <IconButton onClick={handleFilterClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        <DialogContent>
+          <Filter /> {/* Filter Component in a modal on mobile */}
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
