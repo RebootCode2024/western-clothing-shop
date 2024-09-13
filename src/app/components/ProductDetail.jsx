@@ -1,14 +1,16 @@
 "use client"; // Mark this component as client-side
 
-import React, { useState } from 'react';
-import { Box, Typography, Button, IconButton, Chip, Avatar, Rating } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { Box, Typography, Button, IconButton, Chip, Avatar, Rating, Snackbar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { CartContext } from '../context/CartContext'; // Import CartContext for adding to cart
 
-// No TypeScript annotations, use plain props
 const ProductDetail = ({ productId }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState("/assets/tshirt-main.png"); // Set initial image
+  const { addToCart } = useContext(CartContext); // Access CartContext to add items to cart
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // State to control Snackbar
 
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
@@ -16,6 +18,17 @@ const ProductDetail = ({ productId }) => {
   // Handle image click and set the selected image
   const handleImageClick = (imageSrc) => {
     setSelectedImage(imageSrc);
+  };
+
+  // Add to cart functionality with Snackbar notification
+  const handleAddToCart = () => {
+    addToCart({ id: productId, name: "ONE LIFE GRAPHIC TSHIRT", price: 260 }, quantity);
+    setSnackbarOpen(true); // Show snackbar notification
+  };
+
+  // Close Snackbar handler
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -112,10 +125,18 @@ const ProductDetail = ({ productId }) => {
         </Box>
 
         {/* Add to Cart Button */}
-        <Button variant="contained" color="primary" sx={{ width: '100%', padding: '10px', backgroundColor: '#000' }}>
+        <Button variant="contained" color="primary" sx={{ width: '100%', padding: '10px', backgroundColor: '#000' }} onClick={handleAddToCart}>
           Add to Cart
         </Button>
       </Box>
+
+      {/* Snackbar for feedback */}
+      <Snackbar
+        open={snackbarOpen}
+        onClose={handleCloseSnackbar}
+        message={`${quantity} x ONE LIFE GRAPHIC TSHIRT added to cart`}
+        autoHideDuration={3000} // Auto-hide after 3 seconds
+      />
     </Box>
   );
 };

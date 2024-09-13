@@ -4,6 +4,8 @@ import "slick-carousel/slick/slick.css"; // Import slick-carousel CSS
 import "slick-carousel/slick/slick-theme.css"; // Import slick-carousel theme CSS
 import "./globals.css"; // Your global styles
 
+import { CartProvider } from "./context/CartContext"; // Import CartProvider
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,7 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <CartProvider> {/* Wrap the entire app with CartProvider */}
+          {children}
+        </CartProvider>
+      </body>
     </html>
   );
 }

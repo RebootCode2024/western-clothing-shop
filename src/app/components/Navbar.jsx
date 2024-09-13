@@ -1,13 +1,20 @@
 "use client";
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, InputBase, IconButton, Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import React, { useState, useContext, useMemo } from 'react';
+import { AppBar, Toolbar, Typography, Button, InputBase, IconButton, Box, Drawer, List, ListItem, ListItemText, Badge } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
+import { CartContext } from '../context/CartContext'; // Adjust the path to your CartContext
+import { useRouter } from 'next/navigation'; // Use correct router from next/navigation for Next.js 13+
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { cart } = useContext(CartContext); // Access the cart from CartContext
+  const router = useRouter(); // Use Next.js navigation router
+
+  // Calculate the total number of items in the cart
+  const totalCartItems = useMemo(() => cart.reduce((acc, item) => acc + item.quantity, 0), [cart]);
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -106,9 +113,15 @@ const Navbar = () => {
           >
             <SearchIcon />
           </IconButton>
+
+          {/* Cart Icon with Badge (notification dot) */}
           <IconButton color="inherit" sx={{ padding: '0' }}>
-            <ShoppingCartIcon />
+            <Badge badgeContent={totalCartItems} color="error">
+              <ShoppingCartIcon />
+            </Badge>
           </IconButton>
+
+          {/* Account Icon */}
           <IconButton color="inherit" sx={{ padding: '0' }}>
             <AccountCircleIcon />
           </IconButton>
