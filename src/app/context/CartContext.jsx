@@ -22,12 +22,37 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product, quantity) => {
-    setCart((prevCart) => [...prevCart, { ...product, quantity }]);
+  const addToCart = (product, quantity = 1) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity }];
+      }
+    });
+  };
+
+  const removeFromCart = (product) => {
+    setCart((prevCart) =>
+      prevCart.map(item =>
+        item.id === product.id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
+  const deleteFromCart = (product) => {
+    setCart((prevCart) => prevCart.filter(item => item.id !== product.id));
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, deleteFromCart }}>
       {children}
     </CartContext.Provider>
   );

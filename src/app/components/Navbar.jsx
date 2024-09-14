@@ -6,11 +6,14 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { CartContext } from '../context/CartContext'; // Adjust the path to your CartContext
+import Link from 'next/link'; // Import Link from Next.js
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { cart } = useContext(CartContext); // Access the cart from CartContext
   const [isMounted, setIsMounted] = useState(false); // For hydration
+  const router = useRouter(); // Initialize useRouter for navigation
 
   // Calculate the total number of items in the cart
   const totalCartItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -50,6 +53,10 @@ const Navbar = () => {
     </Box>
   );
 
+  const handleCartClick = () => {
+    router.push('/cart'); // Navigate to the cart page
+  };
+
   return (
     <AppBar position="static" color="transparent" elevation={0} sx={{ padding: '0', margin: '0' }}>
       <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center', padding: '0 10px' }}>
@@ -63,9 +70,11 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" sx={{ fontWeight: 'bold', padding: '0' }}>
-            SHOP.CO
-          </Typography>
+          <Link href="/" passHref> {/* Wrap SHOP.CO in Link */}
+            <Typography variant="h6" sx={{ fontWeight: 'bold', padding: '0', cursor: 'pointer' }}>
+              SHOP.CO
+            </Typography>
+          </Link>
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' }, // Show only on desktop
@@ -118,7 +127,7 @@ const Navbar = () => {
           </IconButton>
 
           {/* Cart Icon with Badge (notification dot) */}
-          <IconButton color="inherit" sx={{ padding: '0' }}>
+          <IconButton color="inherit" sx={{ padding: '0' }} onClick={handleCartClick}> {/* Navigate to cart page */}
             <Badge badgeContent={isMounted ? totalCartItems : 0} color="error">
               <ShoppingCartIcon />
             </Badge>
