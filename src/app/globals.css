@@ -5,3 +5,56 @@
 /* Slick Carousel CSS */
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
+/* Adjustments for mobile screens */
+@media (max-width: 768px) {
+    .cart-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+    }
+  
+    .cart-item img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+  
+    .cart-item-details {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  
+    .cart-item-price {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+  
+    .cart-summary {
+      margin-top: 20px;
+      padding: 15px;
+    }
+  
+    .promo-code {
+      margin: 10px 0;
+      padding: 10px;
+    }
+  
+    .checkout-button {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+    }
+  
+    .order-summary-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  
+    .total-price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #000;
+    }
+  }
+  
