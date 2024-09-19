@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useContext, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, InputBase, IconButton, Box, Drawer, List, ListItem, ListItemText, Badge } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, InputBase, IconButton, Box, Drawer, List, ListItem, ListItemText, Badge, Avatar } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -8,12 +8,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { CartContext } from '../context/CartContext'; // Adjust the path to your CartContext
 import Link from 'next/link'; // Import Link from Next.js
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { useSession, signIn, signOut } from 'next-auth/react'; // Import NextAuth hooks for session
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { cart } = useContext(CartContext); // Access the cart from CartContext
   const [isMounted, setIsMounted] = useState(false); // For hydration
   const router = useRouter(); // Initialize useRouter for navigation
+  const { data: session } = useSession(); // Get session information (user details)
 
   // Calculate the total number of items in the cart
   const totalCartItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -133,10 +135,16 @@ const Navbar = () => {
             </Badge>
           </IconButton>
 
-          {/* Account Icon */}
-          <IconButton color="inherit" sx={{ padding: '0' }}>
-            <AccountCircleIcon />
-          </IconButton>
+          {/* Account/Profile Icon */}
+          {session ? (
+            <IconButton color="inherit" onClick={() => signOut()}>
+              <Avatar src={session.user.image} alt={session.user.name} />
+            </IconButton>
+          ) : (
+            <IconButton color="inherit" onClick={() => signIn()}>
+              <AccountCircleIcon />
+            </IconButton>
+          )}
         </Box>
       </Toolbar>
 
