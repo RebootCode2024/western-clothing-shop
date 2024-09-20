@@ -5,23 +5,22 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import { CartContext } from '../context/CartContext'; // Adjust the path to your CartContext
-import Link from 'next/link'; // Import Link from Next.js
-import { useRouter } from 'next/navigation'; // Import useRouter
-import { useSession, signIn, signOut } from 'next-auth/react'; // Import NextAuth hooks for session
+import { CartContext } from '../context/CartContext'; 
+import Link from 'next/link'; 
+import { useRouter } from 'next/navigation'; 
+import { useSession, signIn, signOut } from 'next-auth/react'; 
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { cart } = useContext(CartContext); // Access the cart from CartContext
-  const [isMounted, setIsMounted] = useState(false); // For hydration
-  const router = useRouter(); // Initialize useRouter for navigation
-  const { data: session } = useSession(); // Get session information (user details)
+  const { cart } = useContext(CartContext); 
+  const [isMounted, setIsMounted] = useState(false); 
+  const router = useRouter(); 
+  const { data: session } = useSession(); 
 
-  // Calculate the total number of items in the cart
   const totalCartItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
-    setIsMounted(true); // Set mounted to true after the component has mounted
+    setIsMounted(true);
   }, []);
 
   const toggleDrawer = (open) => (event) => {
@@ -56,30 +55,29 @@ const Navbar = () => {
   );
 
   const handleCartClick = () => {
-    router.push('/cart'); // Navigate to the cart page
+    router.push('/cart'); 
   };
 
   return (
     <AppBar position="static" color="transparent" elevation={0} sx={{ padding: '0', margin: '0' }}>
       <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center', padding: '0 10px' }}>
         
-        {/* Left: Menu Icon and Logo (Mobile) / Logo with Links (Desktop) */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <IconButton 
             color="inherit" 
-            sx={{ padding: '0', display: { xs: 'block', md: 'none' } }} // Show only on mobile
+            sx={{ padding: '0', display: { xs: 'block', md: 'none' } }} 
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
-          <Link href="/" passHref> {/* Wrap SHOP.CO in Link */}
+          <Link href="/" passHref>
             <Typography variant="h6" sx={{ fontWeight: 'bold', padding: '0', cursor: 'pointer' }}>
               SHOP.CO
             </Typography>
           </Link>
           <Box
             sx={{
-              display: { xs: 'none', md: 'flex' }, // Show only on desktop
+              display: { xs: 'none', md: 'flex' },
               alignItems: 'center',
               gap: '20px',
               marginLeft: '20px',
@@ -92,10 +90,9 @@ const Navbar = () => {
           </Box>
         </Box>
 
-        {/* Right: Search (Mobile & Desktop) */}
         <Box 
           sx={{
-            display: { xs: 'none', md: 'flex' }, // Show full search bar on desktop
+            display: { xs: 'none', md: 'flex' }, 
             flexGrow: 1,
             justifyContent: 'center',
           }}
@@ -118,24 +115,20 @@ const Navbar = () => {
           </Box>
         </Box>
 
-        {/* Right: Search Icon, Cart, and Profile (Mobile & Desktop) */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* Mobile Search Icon */}
           <IconButton 
             color="inherit" 
-            sx={{ padding: '0', display: { xs: 'block', md: 'none' } }} // Show only on mobile
+            sx={{ padding: '0', display: { xs: 'block', md: 'none' } }} 
           >
             <SearchIcon />
           </IconButton>
 
-          {/* Cart Icon with Badge (notification dot) */}
-          <IconButton color="inherit" sx={{ padding: '0' }} onClick={handleCartClick}> {/* Navigate to cart page */}
+          <IconButton color="inherit" sx={{ padding: '0' }} onClick={handleCartClick}>
             <Badge badgeContent={isMounted ? totalCartItems : 0} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
 
-          {/* Account/Profile Icon */}
           {session ? (
             <IconButton color="inherit" onClick={() => signOut()}>
               <Avatar src={session.user.image} alt={session.user.name} />
@@ -148,7 +141,6 @@ const Navbar = () => {
         </Box>
       </Toolbar>
 
-      {/* Drawer for Mobile Menu */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
