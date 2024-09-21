@@ -1,11 +1,12 @@
 // src/components/DeliveryDetails.jsx
 "use client";
 import React, { useState } from 'react';
-import { TextField, Box, Button, Typography, Modal, Backdrop, Fade } from '@mui/material';
+import { TextField, Box, Button, Typography, Modal, Backdrop, Fade, Grid, InputAdornment } from '@mui/material';
 
 const DeliveryDetails = ({ open, handleClose }) => {
   const [formData, setFormData] = useState({
     fullName: '',
+    countryCode: '', // Country code will only accept digits
     phone: '',
     email: '',
     address: '',
@@ -17,7 +18,16 @@ const DeliveryDetails = ({ open, handleClose }) => {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // Ensure that the country code only contains digits
+    if (name === 'countryCode') {
+      // Only allow digits for country code
+      const digitsOnly = value.replace(/\D/g, '');
+      setFormData({ ...formData, [name]: digitsOnly });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -43,11 +53,14 @@ const DeliveryDetails = ({ open, handleClose }) => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 400,
+            width: { xs: '90%', sm: '80%', md: '50%', lg: '40%' },
+            maxWidth: '600px',
             bgcolor: 'background.paper',
             boxShadow: 24,
-            p: 4,
+            p: { xs: 2, sm: 3, md: 4 },
             borderRadius: '8px',
+            overflowY: 'auto',
+            maxHeight: '90vh',
           }}
         >
           <Typography variant="h6" gutterBottom>
@@ -65,15 +78,36 @@ const DeliveryDetails = ({ open, handleClose }) => {
               required
             />
 
-            <TextField
-              label="Phone Number"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
-              required
-            />
+            {/* Grid for country code and phone number */}
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <TextField
+                  label="Country Code"
+                  name="countryCode"
+                  value={formData.countryCode}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                  required
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">+</InputAdornment>,
+                  }}
+                  placeholder="1" // Default example for country code
+                />
+              </Grid>
+
+              <Grid item xs={8}>
+                <TextField
+                  label="Phone Number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  fullWidth
+                  margin="normal"
+                  required
+                />
+              </Grid>
+            </Grid>
 
             <TextField
               label="Email Address"
@@ -143,7 +177,7 @@ const DeliveryDetails = ({ open, handleClose }) => {
               fullWidth
               margin="normal"
               multiline
-              rows={4}
+              rows={3}
             />
 
             <Button type="submit" variant="contained" color="primary" fullWidth>
