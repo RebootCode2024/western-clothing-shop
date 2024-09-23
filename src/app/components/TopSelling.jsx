@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Button, Card, CardMedia, CardContent, Rating } from '@mui/material';
+import Link from 'next/link'; // Next.js Link
 
 // Mock Data for Top Selling Products
 const topSellingProducts = [
@@ -58,54 +59,56 @@ const TopSelling = () => {
         }}
       >
         {topSellingProducts.map((product, index) => (
-          <Card
-            key={product.id}
-            sx={{
-              boxShadow: 'none',
-              textAlign: 'center',
-              display: { xs: index >= 2 ? 'none' : 'block', md: 'block' }, // Show only 2 items on mobile
-            }}
-          >
-            <CardMedia
-              component="img"
-              image={product.image}
-              alt={product.name}
-              sx={{ width: '100%', height: 'auto', borderRadius: '8px' }}
-            />
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '5px' }}>
-                {product.name}
-              </Typography>
-
-              {/* Rating */}
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '5px' }}>
-                <Rating value={product.rating} precision={0.5} readOnly />
-                <Typography variant="body2" sx={{ marginLeft: '5px' }}>
-                  {product.rating}/5
+          <Link href="/123" key={product.id} passHref>
+            <Card
+              sx={{
+                boxShadow: 'none',
+                textAlign: 'center',
+                cursor: 'pointer', // Add cursor pointer to indicate clickability
+                display: { xs: index >= 2 ? 'none' : 'block', md: 'block' }, // Show only 2 items on mobile
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={product.image}
+                alt={product.name}
+                sx={{ width: '100%', height: 'auto', borderRadius: '8px' }}
+              />
+              <CardContent>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                  {product.name}
                 </Typography>
-              </Box>
 
-              {/* Price and Discount */}
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5px' }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  {product.price}
-                </Typography>
-                {product.originalPrice && (
-                  <Typography
-                    variant="body2"
-                    sx={{ textDecoration: 'line-through', color: 'grey', marginLeft: '10px' }}
-                  >
-                    {product.originalPrice}
+                {/* Rating */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '5px' }}>
+                  <Rating value={product.rating} precision={0.5} readOnly />
+                  <Typography variant="body2" sx={{ marginLeft: '5px' }}>
+                    {product.rating}/5
                   </Typography>
-                )}
-                {product.discount && (
-                  <Typography variant="body2" sx={{ color: 'red', marginLeft: '10px' }}>
-                    {product.discount}
+                </Box>
+
+                {/* Price and Discount */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '5px' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {product.price}
                   </Typography>
-                )}
-              </Box>
-            </CardContent>
-          </Card>
+                  {product.originalPrice && (
+                    <Typography
+                      variant="body2"
+                      sx={{ textDecoration: 'line-through', color: 'grey', marginLeft: '10px' }}
+                    >
+                      {product.originalPrice}
+                    </Typography>
+                  )}
+                  {product.discount && (
+                    <Typography variant="body2" sx={{ color: 'red', marginLeft: '10px' }}>
+                      {product.discount}
+                    </Typography>
+                  )}
+                </Box>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </Box>
 
