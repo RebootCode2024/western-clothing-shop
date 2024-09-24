@@ -12,10 +12,14 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode; // Explicitly defining the type for children
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Western-Shopping</title>
+        <link rel="icon" href="/assets/cloth-hanger.png" /> {/* Set favicon */}
+      </head>
       <body className={inter.className}>
         <SessionProvider>
           <CartProvider>{children}</CartProvider>
